@@ -1,0 +1,51 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - main
+  
+name: CI & Test
+
+env:
+  env_var: ${{ vars.ENV_CONTEXT_VAR }}
+  
+
+jobs:
+  buildandtest:
+    environment: Development            
+    runs-on: ubuntu-latest
+    steps:
+        - name: Print value
+          run: |
+           echo ${{ vars.DOTNET_VERSION }}
+           echo ${{ vars.AZURE_RG }}
+           echo ${{ vars.AZURE_WEBAPP_NAME }}
+           
+         #checkout the repository
+        - uses: actions/checkout@v2
+        
+        #prepare runner for desired .net version SDK
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v1
+          
+          with:
+            dotnet-version: ${{ vars.DOTNET_VERSION }}
+            
+        #Build/Test/Publish the .net project
+        - name: Build with dotnet
+          run: dotnet build ./eShopOnWeb.sln --configuration Release
+          
+        - name: Test with dotnet
+          run: dotnet test ./eShopOnWeb.sln --configuration Release
+          
+        - name: dotnet publish
+          run: dotnet publish ./src/Web/Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+          
+        # upload the published website code artifacts
+        - name: Upload artifact for deployment job
+          uses: actions/upload-artifact@v3
+          with:
+            name: .net-app
+            path: ${{env.DOTNET_ROOT}}/myapp        
+
