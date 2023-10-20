@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
+using Microsoft.ApplicationInsights;
 using Microsoft.eShopWeb.ApplicationCore.Entities.BasketAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.ApplicationCore.Specifications;
@@ -9,6 +11,9 @@ namespace Microsoft.eShopWeb.ApplicationCore.Services;
 
 public class BasketService : IBasketService
 {
+
+    static TelemetryClient telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
+
     private readonly IRepository<Basket> _basketRepository;
     private readonly IAppLogger<BasketService> _logger;
 
@@ -21,6 +26,9 @@ public class BasketService : IBasketService
 
     public async Task<Basket> AddItemToBasket(string username, int catalogItemId, decimal price, int quantity = 1)
     {
+        //register all products total added to basket
+        telemetryClient.TrackMetric("Added To Basket ($)", Convert.ToDouble(price), new Dictionary<string, string>() { { "user",username } });
+
         var basketSpec = new BasketWithItemsSpecification(username);
         var basket = await _basketRepository.FirstOrDefaultAsync(basketSpec);
 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BlazorShared.Authorization;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
@@ -14,6 +15,7 @@ namespace Microsoft.eShopWeb.Web.Controllers;
 public class UserController : ControllerBase
 {
     private readonly ITokenClaimsService _tokenClaimsService;
+    static TelemetryClient telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
 
     public UserController(ITokenClaimsService tokenClaimsService)
     {

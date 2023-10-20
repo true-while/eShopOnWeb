@@ -10,6 +10,7 @@
 		<PackageReference Include="Ardalis.GuardClauses" Version="4.1.1" />
 		<PackageReference Include="Ardalis.Specification" Version="7.0.0" />
 		<PackageReference Include="MediatR" Version="12.1.1" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
 		<PackageReference Include="System.Security.Claims" Version="4.3.0" />
 		<PackageReference Include="System.Text.Json" Version="7.0.3" />
 	</ItemGroup>

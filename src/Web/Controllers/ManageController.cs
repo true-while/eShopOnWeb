@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Encodings.Web;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.Infrastructure.Identity;
 using Microsoft.eShopWeb.Web.Services;
 using Microsoft.eShopWeb.Web.ViewModels.Manage;
+using Microsoft.IdentityModel.Abstractions;
 
 namespace Microsoft.eShopWeb.Web.Controllers;
 
@@ -24,6 +26,7 @@ public class ManageController : Controller
 
     private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
     private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
+    static TelemetryClient telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
 
     public ManageController(
       UserManager<ApplicationUser> userManager,
@@ -129,6 +132,8 @@ public class ManageController : Controller
     [HttpGet]
     public async Task<IActionResult> ChangePassword()
     {
+        telemetryClient.TrackEvent("Change Password Action");
+
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {

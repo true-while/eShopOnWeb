@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.eShopWeb.Web.Features.MyOrders;
@@ -12,6 +13,7 @@ namespace Microsoft.eShopWeb.Web.Controllers;
 public class OrderController : Controller
 {
     private readonly IMediator _mediator;
+    static TelemetryClient telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
 
     public OrderController(IMediator mediator)
     {

@@ -20,8 +20,10 @@ using Azure.Identity;
 using Microsoft.eShopWeb.Web.Pages;
 using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.ApplicationInsights;
 
 var builder = WebApplication.CreateBuilder(args);
+var telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
 
 builder.Logging.AddConsole();
 
@@ -153,6 +155,7 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         app.Logger.LogError(ex, "An error occurred seeding the DB.");
+        telemetryClient.TrackException(ex);
     }
 }
 
@@ -207,7 +210,6 @@ app.UseRouting();
 app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllerRoute("default", "{controller:slugify=Home}/{action:slugify=Index}/{id?}");
 app.MapRazorPages();

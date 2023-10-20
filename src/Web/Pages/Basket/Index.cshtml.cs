@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.ApplicationInsights;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.eShopWeb.ApplicationCore.Entities;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
@@ -21,6 +22,7 @@ public class IndexModel : PageModel
         _basketViewModelService = basketViewModelService;
         _itemRepository = itemRepository;
     }
+    static TelemetryClient telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
 
     public BasketViewModel BasketModel { get; set; } = new BasketViewModel();
 
@@ -53,6 +55,8 @@ public class IndexModel : PageModel
 
     public async Task OnPostUpdate(IEnumerable<BasketItemViewModel> items)
     {
+       
+
         if (!ModelState.IsValid)
         {
             return;
@@ -62,6 +66,12 @@ public class IndexModel : PageModel
         var updateModel = items.ToDictionary(b => b.Id.ToString(), b => b.Quantity);
         var basket = await _basketService.SetQuantities(basketView.Id, updateModel);
         BasketModel = await _basketViewModelService.Map(basket);
+
+        if (items.Any(b=>b.Quantity == 0)) {
+            var ex = new Exception("Quantity must be > 0");
+            telemetryClient.TrackException(ex);
+            throw ex;
+        }
     }
 
     private string GetOrSetBasketCookieAndUserName()
