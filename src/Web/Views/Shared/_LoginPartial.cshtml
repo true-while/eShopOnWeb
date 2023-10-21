@@ -1,4 +1,4 @@
-﻿@if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
+﻿@if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated )
 {
     <section class="col-lg-4 col-md-5 col-xs-12">
         <div class="esh-identity">
@@ -42,16 +42,21 @@
 else
 {
     <section class="col-lg-4 col-md-5 col-xs-12">
+
         <div class="esh-identity">
             <section class="esh-identity-section">
                 <div class="esh-identity-item">
-
-                    <a asp-area="Identity" asp-page="/Account/Login" class="esh-identity-name esh-identity-name--upper">
+                    <feature name="login">
+                        <a asp-area="Identity" asp-page="/Account/Login" class="esh-identity-name esh-identity-name--upper">
                         Login
-                    </a>
+                        </a>
+                        </feature>
                 </div>
+       
             </section>
+
         </div>
+
     </section>
 
     <section class="col-lg-1 col-xs-12">

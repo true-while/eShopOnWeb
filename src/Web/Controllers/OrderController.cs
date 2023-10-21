@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.eShopWeb.Web.Features.MyOrders;
 using Microsoft.eShopWeb.Web.Features.OrderDetails;
+using Microsoft.FeatureManagement;
 
 namespace Microsoft.eShopWeb.Web.Controllers;
 
@@ -13,16 +14,19 @@ namespace Microsoft.eShopWeb.Web.Controllers;
 public class OrderController : Controller
 {
     private readonly IMediator _mediator;
+    private readonly IFeatureManager _featureManager;
     static TelemetryClient telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
 
-    public OrderController(IMediator mediator)
+    public OrderController(IMediator mediator, IFeatureManager featureManagement)
     {
         _mediator = mediator;
+        _featureManager = featureManagement;    
     }
 
     [HttpGet]
     public async Task<IActionResult> MyOrders()
     {
+
         var viewModel = await _mediator.Send(new GetMyOrders(User.Identity.Name));
 
         return View(viewModel);

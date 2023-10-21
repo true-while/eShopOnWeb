@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.Infrastructure.Identity;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.Mvc;
 
 namespace Microsoft.eShopWeb.Web.Areas.Identity.Pages.Account;
 
+[FeatureGate("login")]
 [AllowAnonymous]
 public class LoginModel : PageModel
 {
@@ -16,7 +19,8 @@ public class LoginModel : PageModel
     private readonly ILogger<LoginModel> _logger;
     private readonly IBasketService _basketService;
 
-    public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, IBasketService basketService)
+    public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, IBasketService basketService
+        )
     {
         _signInManager = signInManager;
         _logger = logger;

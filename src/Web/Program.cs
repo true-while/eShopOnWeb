@@ -21,6 +21,7 @@ using Microsoft.eShopWeb.Web.Pages;
 using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.ApplicationInsights;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
@@ -86,14 +87,16 @@ builder.Services.Configure<SettingsViewModel>(builder.Configuration.GetSection("
 var useAppConfig = false;
 Boolean.TryParse(builder.Configuration["UseAppConfig"], out useAppConfig);
 // Add Azure App Configuration middleware to the container of services.
-builder.Services.AddAzureAppConfiguration();
-builder.Services.AddFeatureManagement();
+
 // Load configuration from Azure App Configuration
 if (useAppConfig)
 {
+    builder.Services.AddAzureAppConfiguration();
+    builder.Services.AddFeatureManagement();
+
     builder.Configuration.AddAzureAppConfiguration(options =>
     {
-        options.Connect(new Uri(builder.Configuration["AppConfigEndpoint"]), new DefaultAzureCredential())
+         options.Connect(builder.Configuration["AppConfigConnection"])
         .ConfigureRefresh(refresh =>
         {
             // Default cache expiration is 30 seconds
@@ -126,6 +129,7 @@ builder.Services.AddScoped<HttpService>();
 builder.Services.AddBlazorServices();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddFeatureManagement();
 
 var app = builder.Build();
 

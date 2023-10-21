@@ -7,6 +7,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
+using Microsoft.FeatureManagement;
 
 namespace Microsoft.eShopWeb.Web.Controllers;
 
@@ -15,11 +16,14 @@ namespace Microsoft.eShopWeb.Web.Controllers;
 public class UserController : ControllerBase
 {
     private readonly ITokenClaimsService _tokenClaimsService;
-    static TelemetryClient telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
+    private readonly IFeatureManager _featureManager;
 
-    public UserController(ITokenClaimsService tokenClaimsService)
+    static TelemetryClient telemetryClient = new TelemetryClient() { InstrumentationKey = "d9657adf-ffae-48cb-8f08-e676f16905ea" };
+    
+    public UserController(ITokenClaimsService tokenClaimsService, IFeatureManager featureManagement)
     {
         _tokenClaimsService = tokenClaimsService;
+        _featureManager = featureManagement;    
     }
 
     [HttpGet]

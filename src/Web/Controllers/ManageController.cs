@@ -9,6 +9,7 @@ using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.Infrastructure.Identity;
 using Microsoft.eShopWeb.Web.Services;
 using Microsoft.eShopWeb.Web.ViewModels.Manage;
+using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Abstractions;
 
 namespace Microsoft.eShopWeb.Web.Controllers;
@@ -19,6 +20,7 @@ namespace Microsoft.eShopWeb.Web.Controllers;
 public class ManageController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IFeatureManager _featureManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IEmailSender _emailSender;
     private readonly IAppLogger<ManageController> _logger;
@@ -31,6 +33,7 @@ public class ManageController : Controller
     public ManageController(
       UserManager<ApplicationUser> userManager,
       SignInManager<ApplicationUser> signInManager,
+      IFeatureManager featureManagement,
       IEmailSender emailSender,
       IAppLogger<ManageController> logger,
       UrlEncoder urlEncoder)
@@ -40,6 +43,8 @@ public class ManageController : Controller
         _emailSender = emailSender;
         _logger = logger;
         _urlEncoder = urlEncoder;
+        _featureManager = featureManagement;
+
     }
 
     [TempData]
