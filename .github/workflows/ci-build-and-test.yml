@@ -9,7 +9,9 @@ on:
       - opened
     branches:
       - 'dev'
-  
+      - 'main'
+
+        
 name: CI DEV & Test
 
 env:
