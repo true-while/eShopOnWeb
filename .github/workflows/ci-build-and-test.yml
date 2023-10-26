@@ -4,6 +4,8 @@ on:
     branches:
       - dev
       - main
+  pull_request:
+    branches: [dev]
   
 name: CI DEV & Test
 
