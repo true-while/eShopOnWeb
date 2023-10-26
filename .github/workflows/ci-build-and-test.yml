@@ -30,8 +30,8 @@ jobs:
            
          #checkout the repository
         - uses: actions/checkout@v2
-          with: 
-           path: github.event.pull_request.base.ref
+         # with: 
+         #  path: github.event.pull_request.base.ref
            
         #prepare runner for desired .net version SDK
         - name: Setup .NET
