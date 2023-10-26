@@ -28,6 +28,7 @@ jobs:
            echo ${{ vars.DOTNET_VERSION }}
            echo ${{ vars.AZURE_RG }}
            echo ${{ vars.AZURE_WEBAPP_NAME }}
+           echo running on branch ${GITHUB_REF##*/}
            
          #checkout the repository
         - uses: actions/checkout@v2
