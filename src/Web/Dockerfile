@@ -10,6 +10,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app
 
+EXPOSE 8080
+
 COPY *.sln .
 COPY . .
 WORKDIR /app/src/Web

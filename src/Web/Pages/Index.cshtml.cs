@@ -23,8 +23,6 @@ public class IndexModel : PageModel
 
     public async Task OnGet(CatalogIndexViewModel catalogModel, int? pageId)
     {
-
-
         if (await _featureManager.IsEnabledAsync("black-friday"))
         {
             //set up empty list
