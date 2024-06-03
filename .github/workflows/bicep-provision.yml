@@ -20,7 +20,7 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
+        resourceGroupName: ${{ secrets.AZURE_RG_BICEP }}
         template: ./.azure/bicep/prod.bicep
-        parameters: 'website=eshop-demo-alex-prod plan=eshop-plan-prod location=eastus'
+        parameters: 'website=eshop-alex-prd plan=eshop-plan-prd location=eastus2'
         failOnStdErr: false
