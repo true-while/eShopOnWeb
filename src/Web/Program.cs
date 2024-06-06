@@ -22,7 +22,6 @@ using Microsoft.FeatureManagement;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-var key =""
     
 builder.Logging.AddConsole();
 
