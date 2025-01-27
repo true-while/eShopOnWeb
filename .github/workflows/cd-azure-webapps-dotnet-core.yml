@@ -127,8 +127,11 @@ jobs:
       
         - name: Deploy to Azure Web App1
           id: deploy-to-webapp
-          uses: azure/webapps-deploy@v2
+          uses: azure/webapps-deploy@v3.0.1
           with:
             resource-group-name: ${{ vars.AZURE_RG }}
             app-name: ${{ vars.AZURE_WEBAPP_NAME }}
             package: .net-app
+
+  
+               
