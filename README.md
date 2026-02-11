@@ -312,6 +312,9 @@ We appreciate community contributions! While these aren't maintained by Microsof
 
 > ### CURRENT VERSION
 > #### The `main` branch is currently running ASP.NET Core 7.0
+> 
+> **Note:** .NET 7.0 reached end of standard support on May 14, 2024. For production use, consider upgrading to a currently supported version such as .NET 8.0 (LTS) or .NET 9.0 (STS). See [.NET Support Policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core) for more information.
+> 
 > #### Older versions are tagged and available in the repository history
 
 ## Additional Resources
