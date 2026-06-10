@@ -29,6 +29,16 @@ public class AccountControllerSignIn : IClassFixture<TestApplication>
     }
 
     [Fact]
+    public async Task ReturnsSignInScreenOnGetWithLoginAlias()
+    {
+        var response = await Client.GetAsync("/login");
+        response.EnsureSuccessStatusCode();
+        var stringResponse = await response.Content.ReadAsStringAsync();
+
+        Assert.Contains("demouser@microsoft.com", stringResponse);
+    }
+
+    [Fact]
     public void RegexMatchesValidRequestVerificationToken()
     {
         // TODO: Move to a unit test

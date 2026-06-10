@@ -66,6 +66,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizePage("/Basket/Checkout");
+    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "/login");
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services
